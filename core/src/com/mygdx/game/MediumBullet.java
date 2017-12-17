@@ -22,7 +22,7 @@ public class MediumBullet {
 
     private MainGirl mainGirl;
 
-    private int BulletSpeed = 5;
+    public static int BulletSpeed = 4;
     private int Type;
 
     private int RandomMove;
@@ -38,13 +38,13 @@ public class MediumBullet {
         random = new Random();
 
         if(Type == 0) {
-            position = new Vector2(0, random.nextInt(GameScreen.SCREEN_HEIGHT));    //Spawn on the left
+            position = new Vector2(-40, random.nextInt(GameScreen.SCREEN_HEIGHT));    //Spawn on the left
         } else if(Type == 1) {
-            position = new Vector2(GameScreen.SCREEN_WIDTH-200, random.nextInt(GameScreen.SCREEN_HEIGHT));     //Spawn on the right
+            position = new Vector2(GameScreen.SCREEN_WIDTH-160, random.nextInt(GameScreen.SCREEN_HEIGHT));     //Spawn on the right
         } else if(Type == 2) {
-            position = new Vector2(random.nextInt(GameScreen.SCREEN_WIDTH-200), GameScreen.SCREEN_HEIGHT);      //Spawn on the top
+            position = new Vector2(random.nextInt(GameScreen.SCREEN_WIDTH-200), GameScreen.SCREEN_HEIGHT+40);      //Spawn on the top
         } else if(Type == 3) {
-            position = new Vector2(random.nextInt(GameScreen.SCREEN_WIDTH-200), GameScreen.SCREEN_HEIGHT);      //Spawn on the bottom
+            position = new Vector2(random.nextInt(GameScreen.SCREEN_WIDTH-200), GameScreen.SCREEN_HEIGHT-40);      //Spawn on the bottom
         }
         RandomMove = random.nextInt(BulletSpeed) - random.nextInt(BulletSpeed);
 

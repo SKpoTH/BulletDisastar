@@ -55,11 +55,11 @@ public class MainGirl {
     	
     	if(position.x < 0)
     		position.x += 1*Speed;
-    	else if(position.x > GameScreen.SCREEN_WIDTH-40)
+    	else if(position.x > ((GameScreen.SCREEN_WIDTH)-200)-20)
     		position.x -= 1*Speed;
     	if(position.y < 0)
     		position.y += 1*Speed;
-    	else if(position.y > GameScreen.SCREEN_HEIGHT-40)
+    	else if(position.y > GameScreen.SCREEN_HEIGHT-20)
     		position.y -= 1*Speed;
     	
     }

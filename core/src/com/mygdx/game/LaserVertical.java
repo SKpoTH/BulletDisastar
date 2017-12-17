@@ -18,7 +18,7 @@ public class LaserVertical {
 
     private MainGirl mainGirl;
 
-    private int LaserSpeed = 5;
+    public static int LaserSpeed = 5;
 
     private World world;
 

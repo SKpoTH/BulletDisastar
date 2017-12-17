@@ -27,7 +27,7 @@ public class YinYang {
 
         mainGirl = world.getMainGirl();
 
-        position = new Vector2(random.nextInt(GameScreen.SCREEN_WIDTH-200), random.nextInt(GameScreen.SCREEN_HEIGHT));
+        position = new Vector2(random.nextInt(GameScreen.SCREEN_WIDTH-300)+50, random.nextInt(GameScreen.SCREEN_HEIGHT-100)+50);
 
         this.world = world;
 

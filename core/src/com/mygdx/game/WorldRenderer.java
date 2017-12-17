@@ -99,23 +99,23 @@ public class WorldRenderer {
             batch.draw(infoTabImg, 900, 0);
 
             //Show Score
-            font.draw(batch, "" + world.Score, 990, 460);
+            font.draw(batch, "" + world.Score, 1000, 580);
 
             //Show Life now
             if (world.LifeValue >= 1) {
-                batch.draw(yinyangImg, 920, 315);
+                batch.draw(yinyangImg, 920, 430);
             }
             if (world.LifeValue >= 2) {
-                batch.draw(yinyangImg, 950, 315);
+                batch.draw(yinyangImg, 950, 430);
             }
             if (world.LifeValue >= 3) {
-                batch.draw(yinyangImg, 980, 315);
+                batch.draw(yinyangImg, 980, 430);
             }
             if (world.LifeValue >= 4) {
-                batch.draw(yinyangImg, 1010, 315);
+                batch.draw(yinyangImg, 1010, 430);
             }
             if (world.LifeValue >= 5) {
-                batch.draw(yinyangImg, 1040, 315);
+                batch.draw(yinyangImg, 1040, 430);
             }
         }
 

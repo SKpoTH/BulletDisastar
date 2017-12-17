@@ -26,26 +26,33 @@ public class World {
     private float ImmortalTimeCounter = 0;
 
     //Power(Life)
-    private double LifeSpawnTime = 15;
+    private double LifeSpawnTime = 20;
     private float LifeTimeCounter = 0;
     public boolean GetLife = false;
-    public int LifeValue = 1;
+    public int LifeValue = 3;
 
     //Yin-Yang List
     private ArrayList<YinYang> yinYangs = new ArrayList<YinYang>();
 
 	//Laser Cage Spawn Time Setting
-	private static final double LaserCageSpawnTime = 2;
+	private static double LaserCageSpawnTime = 2.5;
 	private float LaserTimeCounter = 0;
 
-	private int LaserCageScoreAppear = 50;
+	private int LaserCageScoreAppear = 75;
 	private float LaserCageScore = 0;
 
 	private int LaserCageCount = 0;
 
 	//Medium bullet Spawn Time Setting
-	private  static final double MediumBulletSpawnTime = 0.5;
+	private double MediumBulletSpawnTime = 1;
 	private float MediumBulletTimeCounter = 0;
+
+	private int MediumBulletScoreLevelSpeed = 200;
+    private float MediumBulletScoreSpeed = 0;
+
+    private int MediumBulletScoreLevelSpawn = 100;
+    private float MediumBulletScoreSpawn = 0;
+
 
 	private DisastarGame disastarGame;
 
@@ -143,6 +150,8 @@ public class World {
             if (ScoreTimeCounter >= ScoreRate) {
                 Score += 1;
                 LaserCageScore += 1;
+                MediumBulletScoreSpeed += 1;
+                MediumBulletScoreSpawn += 1;
 
                 ScoreTimeCounter -= ScoreRate;
             }
@@ -156,6 +165,15 @@ public class World {
             for (int i = 0; i < mediumBullets.size(); i++) {
                 mediumBullets.get(i).update(delta);
             }
+            if(MediumBulletScoreSpeed >= MediumBulletScoreLevelSpeed){
+                MediumBullet.BulletSpeed += 1;
+                MediumBulletScoreSpeed -= MediumBulletScoreLevelSpeed;
+            }
+            if(MediumBulletScoreSpawn >= MediumBulletScoreLevelSpawn){
+                MediumBulletSpawnTime = MediumBulletSpawnTime*0.8;
+                MediumBulletScoreSpawn -= MediumBulletScoreLevelSpawn;
+            }
+
 
             //Laser Cage Part
             if (LaserCageScore >= LaserCageScoreAppear) {
@@ -184,6 +202,9 @@ public class World {
                 if (LaserCageCount == 5) {
                     LaserCageCount = 0;
                     LaserCageScore = 0;
+                    LaserVertical.LaserSpeed += 1;
+                    LaserHorizontal.LaserSpeed += 1;
+                    LaserCageSpawnTime *= 0.75;
                 }
             }
             for (int i = 0; i < laserCageHorizontal.size(); i++) {
@@ -217,9 +238,16 @@ public class World {
             LaserTimeCounter = 0;
             LaserCageScore = 0;
             LaserCageCount = 0;
+            LaserHorizontal.LaserSpeed = 5;
+            LaserVertical.LaserSpeed = 5;
 
             //Medium bullet Spawn Time Setting
             MediumBulletTimeCounter = 0;
+            MediumBulletScoreSpeed = 0;
+            MediumBulletScoreSpawn = 0;
+
+            MediumBullet.BulletSpeed = 4;
+            MediumBulletSpawnTime = 1;
 
             //Medium Bullet List
             for (int i = 0; i < mediumBullets.size(); i++) {
