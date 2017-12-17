@@ -1,11 +1,12 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.sun.prism.shader.Texture_Color_AlphaTest_Loader;
 
 public class WorldRenderer {
+    BitmapFont font = new BitmapFont();
 	
 	private DisastarGame disastarGame;
 
@@ -13,6 +14,9 @@ public class WorldRenderer {
 	private Texture infoTabImg;
 	
 	private Texture heroImg;
+	private Texture yinyangImg;
+
+
 	private Texture mediumBulletImg;
 	private Texture laserHorizontalImg;
 	private Texture laserVerticalImg;
@@ -31,6 +35,8 @@ public class WorldRenderer {
         infoTabImg = new Texture("info_tab.png");
 
 		heroImg = new Texture("hit_point.png");
+		yinyangImg = new Texture("ying_yang.png");
+
 		mediumBulletImg = new Texture("medium_bullet.png");
 		laserHorizontalImg = new Texture("laser_purple_horizontal.png");
 		laserVerticalImg = new Texture("laser_purple_vertical.png");
@@ -47,6 +53,12 @@ public class WorldRenderer {
         if(!world.Dead) {
             Vector2 pos = world.getMainGirl().getPosition();
             batch.draw(heroImg, pos.x, pos.y);
+        }
+
+        //Yin-Yang (Life)
+        for (int i = 0 ; i<world.getYinYangs().size() ; i++){
+            Vector2 PosLife = world.getYinYangs().get(i).getPosition();
+            batch.draw(yinyangImg, PosLife.x, PosLife.y);
         }
 
 	    //Medium Bullet
@@ -67,6 +79,26 @@ public class WorldRenderer {
 
         //Information Tab
         batch.draw(infoTabImg, 900, 0);
+
+        //Show Score
+        font.draw(batch, ""+world.Score, 990, 460);
+
+        //Show Life now
+        if(world.LifeValue >= 1) {
+            batch.draw(yinyangImg, 920, 315);
+        }
+        if(world.LifeValue >= 2) {
+            batch.draw(yinyangImg, 950, 315);
+        }
+        if(world.LifeValue >= 3) {
+            batch.draw(yinyangImg, 980, 315);
+        }
+        if(world.LifeValue >= 4) {
+            batch.draw(yinyangImg, 1010, 315);
+        }
+        if(world.LifeValue >= 5) {
+            batch.draw(yinyangImg, 1040, 315);
+        }
 
 	    batch.end();
 	}

@@ -9,6 +9,8 @@ public class World {
 
 	private MainGirl mainGirl;
 
+	private YinYang yinYang;
+
 	private MediumBullet mediumBullet;
 
 	private LaserHorizontal laserHorizontal;
@@ -19,12 +21,21 @@ public class World {
     private double ReviveTime = 3;
     private float ReviveTimeCounter = 0;
 
+    //Power(Life)
+    private double LifeSpawnTime = 15;
+    private float LifeTimeCounter = 0;
+    public boolean GetLife = false;
+    public int LifeValue = 3;
+
+    //Yin-Yang List
+    private ArrayList<YinYang> yinYangs = new ArrayList<YinYang>();
+
 	//Laser Cage Spawn Time Setting
 	private static final double LaserCageSpawnTime = 2;
 	private float LaserTimeCounter = 0;
 
 	//Medium bullet Spawn Time Setting
-	private  static final double MediumBulletSpawnTime = 0.25;
+	private  static final double MediumBulletSpawnTime = 0.5;
 	private float MediumBulletTimeCounter = 0;
 
 	private DisastarGame disastarGame;
@@ -36,8 +47,8 @@ public class World {
 	private ArrayList<LaserHorizontal> laserCageHorizontal = new ArrayList<LaserHorizontal>();
     private ArrayList<LaserVertical> laserCageVertical = new ArrayList<LaserVertical>();
 
-    private int Score = 0;
-    private static final double ScoreRate = 0.5;
+    public int Score = 0;
+    private static final double ScoreRate = 0.3;
     private float ScoreTimeCounter = 0;
 
 	
@@ -53,6 +64,10 @@ public class World {
 		return mainGirl;
 	}
 
+	ArrayList<YinYang> getYinYangs() {
+	    return yinYangs;
+    }
+
     ArrayList<MediumBullet> getMediumBullets() {
         return mediumBullets;
     }
@@ -67,11 +82,29 @@ public class World {
 
 	public void update(float delta)
 	{
+	    //Life(Yin-Yang)
+        LifeTimeCounter += delta;
+        if(LifeTimeCounter >= (random.nextInt(10) + LifeSpawnTime)){
+            yinYangs.add(new YinYang(this));
+            LifeTimeCounter = 0;
+        }
+        for(int i = 0; i< yinYangs.size() ; i++) {
+            yinYangs.get(i).update(delta);
+            if(GetLife) {
+                if(LifeValue < 5 && LifeValue > 0) {
+                    LifeValue += 1;
+                }
+                yinYangs.remove(yinYangs.get(i));
+                GetLife = false;
+            }
+        }
+
 	    //Live Status
         if(Dead){
             mainGirl.ReviveGirl();
             ReviveTimeCounter += delta;
             if(ReviveTimeCounter >= ReviveTime){
+                LifeValue -= 1;
                 Dead = false;
                 ReviveTimeCounter -= ReviveTime;
             }
@@ -81,6 +114,7 @@ public class World {
         ScoreTimeCounter += delta;
         if(ScoreTimeCounter >= ScoreRate){
             Score += 1;
+            ScoreTimeCounter -= ScoreRate;
         }
 
 		//Medium Bullet normally spawn

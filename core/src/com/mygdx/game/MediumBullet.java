@@ -22,7 +22,7 @@ public class MediumBullet {
 
     private MainGirl mainGirl;
 
-    private int BulletSpeed = 7;
+    private int BulletSpeed = 5;
     private int Type;
 
     private int RandomMove;
