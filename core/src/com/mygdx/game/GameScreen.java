@@ -12,7 +12,7 @@ public class GameScreen extends ScreenAdapter{
 	public static final int SCREEN_WIDTH = 1100;
 	public static final int SCREEN_HEIGHT = 650;
 
-	public int GameStatus = 0;
+	public static int GameStatus = 0;
 	
 	World world;
 	
@@ -34,23 +34,48 @@ public class GameScreen extends ScreenAdapter{
 	}
 	
 	private void update(float delta) {
-		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
-			world.getMainGirl().move(MainGirl.DIRECTION_LEFT);
+
+	    //Title Screen
+	    if(GameStatus == 0) {
+            if (Gdx.input.isKeyPressed((Keys.SPACE))) {
+                GameStatus = 1;                             //Go to Tutorial Screen
+            }
         }
-        if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
-        	world.getMainGirl().move(MainGirl.DIRECTION_RIGHT);
+
+        //Tutorial Screen
+        if(GameStatus == 1){
+            if (Gdx.input.isKeyPressed((Keys.ENTER))) {
+                GameStatus = 2;                             //Go to Playing Screen
+            }
         }
-        if(Gdx.input.isKeyPressed(Keys.UP)) {
-        	world.getMainGirl().move(MainGirl.DIRECTION_UP);
-        }
-        if(Gdx.input.isKeyPressed(Keys.DOWN)) {
-        	world.getMainGirl().move(MainGirl.DIRECTION_DOWN);
-        }
-        
-        if(Gdx.input.isKeyPressed(Keys.SPACE)) {
-        	world.getMainGirl().holdSpeed(true);
-        } else {
-        	world.getMainGirl().holdSpeed(false);
+
+        //Playing Screen
+        if(GameStatus == 2) {
+			if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+				world.getMainGirl().move(MainGirl.DIRECTION_LEFT);
+			}
+			if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+				world.getMainGirl().move(MainGirl.DIRECTION_RIGHT);
+			}
+			if (Gdx.input.isKeyPressed(Keys.UP)) {
+				world.getMainGirl().move(MainGirl.DIRECTION_UP);
+			}
+			if (Gdx.input.isKeyPressed(Keys.DOWN)) {
+				world.getMainGirl().move(MainGirl.DIRECTION_DOWN);
+			}
+
+			if (Gdx.input.isKeyPressed(Keys.SPACE)) {
+				world.getMainGirl().holdSpeed(true);
+			} else {
+				world.getMainGirl().holdSpeed(false);
+			}
+		}
+
+		//Ending Screen
+        if(GameStatus == 3){
+            if (Gdx.input.isKeyPressed((Keys.ENTER))) {
+                GameStatus = 0;                             //Go to Title Screen
+            }
         }
 	}
 	

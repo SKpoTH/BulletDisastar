@@ -29,7 +29,7 @@ public class World {
     private double LifeSpawnTime = 15;
     private float LifeTimeCounter = 0;
     public boolean GetLife = false;
-    public int LifeValue = 3;
+    public int LifeValue = 1;
 
     //Yin-Yang List
     private ArrayList<YinYang> yinYangs = new ArrayList<YinYang>();
@@ -91,103 +91,150 @@ public class World {
 
 	public void update(float delta)
 	{
-	    //Life(Yin-Yang)
-        LifeTimeCounter += delta;
-        if(LifeTimeCounter >= (random.nextInt(10) + LifeSpawnTime)){
-            yinYangs.add(new YinYang(this));
-            LifeTimeCounter = 0;
+	    if(GameScreen.GameStatus == 0){
+	        Score = 0;
         }
-        for(int i = 0; i< yinYangs.size() ; i++) {
-            yinYangs.get(i).update(delta);
-            if(GetLife) {
-                if(LifeValue < 5 && LifeValue > 0) {
-                    LifeValue += 1;
+
+	    if(GameScreen.GameStatus == 2) {
+            //Life(Yin-Yang)
+            LifeTimeCounter += delta;
+            if (LifeTimeCounter >= (random.nextInt(10) + LifeSpawnTime)) {
+                yinYangs.add(new YinYang(this));
+                LifeTimeCounter = 0;
+            }
+            for (int i = 0; i < yinYangs.size(); i++) {
+                yinYangs.get(i).update(delta);
+                if (GetLife) {
+                    if (LifeValue < 5 && LifeValue > 0) {
+                        LifeValue += 1;
+                    }
+                    yinYangs.remove(yinYangs.get(i));
+                    GetLife = false;
                 }
+            }
+
+            //Live Status
+            if (Dead) {
+                if(LifeValue > 0) {
+                    mainGirl.ReviveGirl();
+                    ReviveTimeCounter += delta;
+                    if (ReviveTimeCounter >= ReviveTime) {
+                        LifeValue -= 1;
+                        Dead = false;
+                        ReviveTimeCounter -= ReviveTime;
+                        Immortal = true;
+                    }
+                }
+            }
+            if(LifeValue <= 0){
+                GameScreen.GameStatus = 3;
+            }
+
+            if (Immortal) {
+                ImmortalTimeCounter += delta;
+                if (ImmortalTimeCounter >= ImmortalTime) {
+                    ImmortalTimeCounter -= ImmortalTime;
+                    Immortal = false;
+                }
+            }
+
+            //Scoring System
+            ScoreTimeCounter += delta;
+            if (ScoreTimeCounter >= ScoreRate) {
+                Score += 1;
+                LaserCageScore += 1;
+
+                ScoreTimeCounter -= ScoreRate;
+            }
+
+            //Medium Bullet normally spawn
+            MediumBulletTimeCounter += delta;
+            if (MediumBulletTimeCounter >= MediumBulletSpawnTime) {
+                mediumBullets.add(new MediumBullet(this, random.nextInt(3)));
+                MediumBulletTimeCounter -= MediumBulletSpawnTime;
+            }
+            for (int i = 0; i < mediumBullets.size(); i++) {
+                mediumBullets.get(i).update(delta);
+            }
+
+            //Laser Cage Part
+            if (LaserCageScore >= LaserCageScoreAppear) {
+                LaserTimeCounter += delta;
+                if (LaserTimeCounter >= LaserCageSpawnTime) {
+                    laserCageHorizontal.add(new LaserHorizontal(this, -475, 600));
+                    laserCageHorizontal.add(new LaserHorizontal(this, -475, 480));
+                    laserCageHorizontal.add(new LaserHorizontal(this, -475, 360));
+                    laserCageHorizontal.add(new LaserHorizontal(this, -475, 240));
+                    laserCageHorizontal.add(new LaserHorizontal(this, -475, 120));
+                    laserCageHorizontal.add(new LaserHorizontal(this, -475, 0));
+
+                    laserCageVertical.add(new LaserVertical(this, 840, 1125));
+                    laserCageVertical.add(new LaserVertical(this, 720, 1125));
+                    laserCageVertical.add(new LaserVertical(this, 600, 1125));
+                    laserCageVertical.add(new LaserVertical(this, 480, 1125));
+                    laserCageVertical.add(new LaserVertical(this, 360, 1125));
+                    laserCageVertical.add(new LaserVertical(this, 240, 1125));
+                    laserCageVertical.add(new LaserVertical(this, 120, 1125));
+                    laserCageVertical.add(new LaserVertical(this, 0, 1125));
+
+                    LaserTimeCounter -= LaserCageSpawnTime;
+
+                    LaserCageCount += 1;
+                }
+                if (LaserCageCount == 5) {
+                    LaserCageCount = 0;
+                    LaserCageScore = 0;
+                }
+            }
+            for (int i = 0; i < laserCageHorizontal.size(); i++) {
+                laserCageHorizontal.get(i).Move();
+                laserCageHorizontal.get(i).update(delta);
+            }
+
+            for (int i = 0; i < laserCageVertical.size(); i++) {
+                laserCageVertical.get(i).Move();
+                laserCageVertical.get(i).update(delta);
+            }
+        }
+        if(GameScreen.GameStatus == 3){
+            Dead = false;
+            ReviveTimeCounter = 0;
+
+            Immortal = false;
+            ImmortalTimeCounter = 0;
+
+            //Power(Life)
+            LifeTimeCounter = 0;
+            GetLife = false;
+            LifeValue = 1;
+
+            //Yin-Yang List
+            for (int i = 0; i < yinYangs.size(); i++) {
                 yinYangs.remove(yinYangs.get(i));
-                GetLife = false;
             }
-        }
 
-	    //Live Status
-        if(Dead){
-            mainGirl.ReviveGirl();
-            ReviveTimeCounter += delta;
-            if(ReviveTimeCounter >= ReviveTime){
-                LifeValue -= 1;
-                Dead = false;
-                ReviveTimeCounter -= ReviveTime;
-                Immortal = true;
+            //Laser Cage Spawn Time Setting
+            LaserTimeCounter = 0;
+            LaserCageScore = 0;
+            LaserCageCount = 0;
+
+            //Medium bullet Spawn Time Setting
+            MediumBulletTimeCounter = 0;
+
+            //Medium Bullet List
+            for (int i = 0; i < mediumBullets.size(); i++) {
+                mediumBullets.remove(mediumBullets.get(i));
             }
-        }
-        if(Immortal){
-            ImmortalTimeCounter += delta;
-            if(ImmortalTimeCounter >= ImmortalTime) {
-                ImmortalTimeCounter -= ImmortalTime;
-                Immortal = false;
+
+            //Laser List
+            for (int i = 0; i < laserCageHorizontal.size(); i++) {
+                    laserCageHorizontal.remove(laserCageHorizontal.get(i));
             }
-        }
-
-	    //Scoring System
-        ScoreTimeCounter += delta;
-        if(ScoreTimeCounter >= ScoreRate){
-            Score += 1;
-            LaserCageScore += 1;
-
-            ScoreTimeCounter -= ScoreRate;
-        }
-
-		//Medium Bullet normally spawn
-		MediumBulletTimeCounter += delta;
-		if(MediumBulletTimeCounter >= MediumBulletSpawnTime){
-			mediumBullets.add(new MediumBullet(this, random.nextInt(3)));
-			MediumBulletTimeCounter -= MediumBulletSpawnTime;
-		}
-		for(int i = 0 ; i < mediumBullets.size() ; i++){
-		    mediumBullets.get(i).update(delta);
-        }
-
-		//Laser Cage Part
-        if(LaserCageScore >= LaserCageScoreAppear) {
-            LaserTimeCounter += delta;
-            if (LaserTimeCounter >= LaserCageSpawnTime) {
-                laserCageHorizontal.add(new LaserHorizontal(this, -475, 600));
-                laserCageHorizontal.add(new LaserHorizontal(this, -475, 480));
-                laserCageHorizontal.add(new LaserHorizontal(this, -475, 360));
-                laserCageHorizontal.add(new LaserHorizontal(this, -475, 240));
-                laserCageHorizontal.add(new LaserHorizontal(this, -475, 120));
-                laserCageHorizontal.add(new LaserHorizontal(this, -475, 0));
-
-                laserCageVertical.add(new LaserVertical(this, 840, 1125));
-                laserCageVertical.add(new LaserVertical(this, 720, 1125));
-                laserCageVertical.add(new LaserVertical(this, 600, 1125));
-                laserCageVertical.add(new LaserVertical(this, 480, 1125));
-                laserCageVertical.add(new LaserVertical(this, 360, 1125));
-                laserCageVertical.add(new LaserVertical(this, 240, 1125));
-                laserCageVertical.add(new LaserVertical(this, 120, 1125));
-                laserCageVertical.add(new LaserVertical(this, 0, 1125));
-
-                LaserTimeCounter -= LaserCageSpawnTime;
-
-                LaserCageCount += 1;
+            for (int i = 0; i < laserCageVertical.size(); i++) {
+                laserCageVertical.remove(laserCageVertical.get(i));
             }
-            if(LaserCageCount == 5){
-                LaserCageCount = 0;
-                LaserCageScore = 0;
-            }
+            ScoreTimeCounter = 0;
         }
-		for(int i = 0; i< laserCageHorizontal.size() ; i++) {
-            laserCageHorizontal.get(i).Move();
-            laserCageHorizontal.get(i).update(delta);
-        }
-
-        for(int i = 0; i< laserCageVertical.size() ; i++) {
-            laserCageVertical.get(i).Move();
-            laserCageVertical.get(i).update(delta);
-        }
-
-
-
-
 	}
 
 }
