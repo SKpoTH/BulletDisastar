@@ -132,9 +132,10 @@ public class WorldRenderer {
             //Main Girl Player
             if (!world.Dead) {
                 Vector2 pos = world.getMainGirl().getPosition();
-                batch.draw(heroImg, pos.x, pos.y);
-
                 GirlAnimation(delta, pos);
+                if(MainGirl.Hold) {
+                    batch.draw(heroImg, pos.x, pos.y);
+                }
             }
 
             //Yin-Yang (Life)

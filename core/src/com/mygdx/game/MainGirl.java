@@ -16,6 +16,8 @@ public class MainGirl {
 	private Vector2 position;
 	
 	private int Speed = 7;
+
+	public static boolean Hold = false;
 	
 	public static final int DIRECTION_UP = 1;
     public static final int DIRECTION_RIGHT = 2;
@@ -63,10 +65,14 @@ public class MainGirl {
     	
     }
     public void holdSpeed(boolean hold) {
-    	if(hold)
-    		Speed = 3;
-    	else 
-    		Speed = 7;
+    	if(hold) {
+            Speed = 3;
+            Hold = true;
+        }
+    	else {
+            Speed = 7;
+            Hold = false;
+        }
     }
     public void ReviveGirl(){
 	    position.x = ((GameScreen.SCREEN_WIDTH)-200)/2;

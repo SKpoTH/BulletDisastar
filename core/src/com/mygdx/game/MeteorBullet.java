@@ -32,7 +32,7 @@ public class MeteorBullet {
         random = new Random();
 
         if(Type == 0) {
-            position = new Vector2(0, random.nextInt(GameScreen.SCREEN_HEIGHT));
+            position = new Vector2(-70, random.nextInt(GameScreen.SCREEN_HEIGHT));
         }
         else if(Type == 1){
             position = new Vector2(random.nextInt(GameScreen.SCREEN_WIDTH-200), GameScreen.SCREEN_HEIGHT);
