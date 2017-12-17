@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.sun.prism.shader.Texture_Color_AlphaTest_Loader;
 
 public class WorldRenderer {
 	
@@ -11,6 +12,7 @@ public class WorldRenderer {
 	private Texture backGroundImg;
 	
 	private Texture heroImg;
+	private Texture mediumBulletImg;
 	private Texture laserHorizontalImg;
 	private Texture laserVerticalImg;
 
@@ -27,6 +29,7 @@ public class WorldRenderer {
 		backGroundImg = new Texture("background_sky.jpg");
 
 		heroImg = new Texture("pacman.png");
+		mediumBulletImg = new Texture("medium_bullet.png");
 		laserHorizontalImg = new Texture("laser_yellow_horizontal.png");
 		laserVerticalImg = new Texture("laser_yellow_vertical.png");
 	}
@@ -35,20 +38,28 @@ public class WorldRenderer {
 		SpriteBatch batch = disastarGame.batch;
 	    batch.begin();
 
+	    //Background
 	    batch.draw(backGroundImg, 0 , 0);
 
+	    //Medium Bullet
+        for (int i = 0 ; i<world.getMediumBullets().size() ; i++){
+            Vector2 PosMediumBullet = world.getMediumBullets().get(i).getPosition();
+            batch.draw(mediumBulletImg, PosMediumBullet.x, PosMediumBullet.y);
+        }
+
+	    //Laser
 	    for(int i = 0; i<world.getLaserHorizontal().size() ; i++){
             Vector2 PosH = world.getLaserHorizontal().get(i).getPosition();
             batch.draw(laserHorizontalImg, PosH.x, PosH.y);
         }
-
         for(int i = 0; i<world.getLaserVertical().size() ; i++){
             Vector2 PosV = world.getLaserVertical().get(i).getPosition();
             batch.draw(laserVerticalImg, PosV.x, PosV.y);
         }
 
+        //Main Girl Player
 	    Vector2 pos = world.getMainGirl().getPosition();
-        batch.draw(heroImg, pos.x , pos.y);
+	    batch.draw(heroImg, pos.x , pos.y);
 
 	    batch.end();
 	}
