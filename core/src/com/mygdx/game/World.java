@@ -1,11 +1,24 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 public class World {
 
 	private Random random;
+
+	Sound bgm = Gdx.audio.newSound(Gdx.files.internal("sounds/pure_furies.mp3"));
+    Sound deadSound = Gdx.audio.newSound(Gdx.files.internal("sounds/death.mp3"));
+    Sound lifeSound = Gdx.audio.newSound(Gdx.files.internal("sounds/BONUS.wav"));
+    Sound laserSound = Gdx.audio.newSound(Gdx.files.internal("sounds/ATTACK2.wav"));
+    Sound explode = Gdx.audio.newSound(Gdx.files.internal("sounds/DEFEATED.wav"));
+    Sound shinkSound = Gdx.audio.newSound(Gdx.files.internal("sounds/TWINKLE3.wav"));
+
+    private boolean JustDead = true;
+    private boolean JustLife = true;
 
 	private MainGirl mainGirl;
 
@@ -86,6 +99,9 @@ public class World {
 		mainGirl = new MainGirl(this ,(GameScreen.SCREEN_WIDTH-200)/2,GameScreen.SCREEN_HEIGHT/2);
 
 		random = new Random();
+
+		long id = bgm.play(0.55f);
+		bgm.setLooping(id, true);
 	}
 
 	MainGirl getMainGirl() {
@@ -128,6 +144,7 @@ public class World {
             for (int i = 0; i < yinYangs.size(); i++) {
                 yinYangs.get(i).update(delta);
                 if (GetLife) {
+                    long live = lifeSound.play(0.80f);
                     if (LifeValue < 5 && LifeValue > 0) {
                         LifeValue += 1;
                     }
@@ -141,11 +158,17 @@ public class World {
                 if(LifeValue > 0) {
                     mainGirl.ReviveGirl();
                     ReviveTimeCounter += delta;
+                    if(JustDead){
+                        long death = deadSound.play(0.80f);
+                        JustDead = false;
+                    }
+
                     if (ReviveTimeCounter >= ReviveTime) {
                         LifeValue -= 1;
                         Dead = false;
                         ReviveTimeCounter -= ReviveTime;
                         Immortal = true;
+                        JustDead = true;
                     }
                 }
             }
@@ -188,7 +211,8 @@ public class World {
                 MediumBulletScoreSpeed -= MediumBulletScoreLevelSpeed;
             }
             if(MediumBulletScoreSpawn >= MediumBulletScoreLevelSpawn){
-                MediumBulletSpawnTime = MediumBulletSpawnTime*0.75;
+                long ving = shinkSound.play(0.80f);
+                MediumBulletSpawnTime = MediumBulletSpawnTime*0.7;
                 MediumBulletScoreSpawn -= MediumBulletScoreLevelSpawn;
             }
 
@@ -197,6 +221,8 @@ public class World {
             if (LaserCageScore >= LaserCageScoreAppear) {
                 LaserTimeCounter += delta;
                 if (LaserTimeCounter >= LaserCageSpawnTime) {
+                    long laser = laserSound.play(0.80f);
+
                     laserCageHorizontal.add(new LaserHorizontal(this, -475, 600));
                     laserCageHorizontal.add(new LaserHorizontal(this, -475, 480));
                     laserCageHorizontal.add(new LaserHorizontal(this, -475, 360));
@@ -239,6 +265,7 @@ public class World {
             if(MeteorScore >= MeteorScoreApear) {
                 MeteorTimeCounter += delta;
                 if (MeteorTimeCounter >= MeteorSpawnTime) {
+                    long boom = explode.play(0.15f);
                     meteorBullets.add(new MeteorBullet(this, random.nextInt(2)));
                     MeteorTimeCounter -= MeteorSpawnTime;
 
