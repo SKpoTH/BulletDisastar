@@ -3,9 +3,19 @@ package com.mygdx.game;
 import com.badlogic.gdx.math.Vector2;
 
 public class MainGirl {
+
+	private float ImageSize_X = 50;
+	private float ImageSize_Y = 50;
+
+	private float Radius_X = ImageSize_X/2;
+	private float Radius_Y = ImageSize_Y/2;
+
+	private float Center_X;
+	private float Center_Y;
+
 	private Vector2 position;
 	
-	private int Speed = 10;
+	private int Speed = 7;
 	
 	public static final int DIRECTION_UP = 1;
     public static final int DIRECTION_RIGHT = 2;
@@ -15,12 +25,20 @@ public class MainGirl {
 	
 	public MainGirl(int x, int y) {
 		position = new Vector2(x,y);
+
     }    
  
     public Vector2 getPosition() {
 		return position;
     }
-    
+
+    public float getCenter_X(){
+	    return Center_X + position.x + Radius_X;
+    }
+    public float getCenter_Y(){
+	    return Center_Y + position.y + Radius_Y;
+    }
+
     public void move(int dir) { 
     	if(dir == DIRECTION_UP)
             position.y += 1*Speed;
@@ -43,9 +61,9 @@ public class MainGirl {
     }
     public void holdSpeed(boolean hold) {
     	if(hold)
-    		Speed = 5;
+    		Speed = 3;
     	else 
-    		Speed = 10;
+    		Speed = 7;
     		
     }
     

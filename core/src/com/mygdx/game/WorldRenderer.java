@@ -27,8 +27,8 @@ public class WorldRenderer {
 		backGroundImg = new Texture("background_sky.jpg");
 
 		heroImg = new Texture("pacman.png");
-		laserHorizontalImg = new Texture("laser_orange_horizontal.png");
-		laserVerticalImg = new Texture("laser_orange_vertical.png");
+		laserHorizontalImg = new Texture("laser_yellow_horizontal.png");
+		laserVerticalImg = new Texture("laser_yellow_vertical.png");
 	}
 	
 	public void render(float delta) {
