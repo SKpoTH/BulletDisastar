@@ -44,7 +44,7 @@ public class LaserVertical {
 
         // Check the Radius of MainGirl and Laser
 
-        if(!world.Dead) {
+        if(!world.Dead && !world.Immortal) {
             if (mainGirl.getCenter_X() > Center_X - Radius_X && mainGirl.getCenter_X() < Center_X + Radius_X) {
 
                 if (mainGirl.getCenter_Y() > Center_Y - Radius_Y && mainGirl.getCenter_Y() < Center_Y + Radius_Y) {

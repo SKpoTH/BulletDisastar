@@ -21,6 +21,10 @@ public class World {
     private double ReviveTime = 3;
     private float ReviveTimeCounter = 0;
 
+    public boolean Immortal = false;
+    private double ImmortalTime = 2.5;
+    private float ImmortalTimeCounter = 0;
+
     //Power(Life)
     private double LifeSpawnTime = 15;
     private float LifeTimeCounter = 0;
@@ -33,6 +37,11 @@ public class World {
 	//Laser Cage Spawn Time Setting
 	private static final double LaserCageSpawnTime = 2;
 	private float LaserTimeCounter = 0;
+
+	private int LaserCageScoreAppear = 50;
+	private float LaserCageScore = 0;
+
+	private int LaserCageCount = 0;
 
 	//Medium bullet Spawn Time Setting
 	private  static final double MediumBulletSpawnTime = 0.5;
@@ -107,6 +116,14 @@ public class World {
                 LifeValue -= 1;
                 Dead = false;
                 ReviveTimeCounter -= ReviveTime;
+                Immortal = true;
+            }
+        }
+        if(Immortal){
+            ImmortalTimeCounter += delta;
+            if(ImmortalTimeCounter >= ImmortalTime) {
+                ImmortalTimeCounter -= ImmortalTime;
+                Immortal = false;
             }
         }
 
@@ -114,6 +131,8 @@ public class World {
         ScoreTimeCounter += delta;
         if(ScoreTimeCounter >= ScoreRate){
             Score += 1;
+            LaserCageScore += 1;
+
             ScoreTimeCounter -= ScoreRate;
         }
 
@@ -128,27 +147,34 @@ public class World {
         }
 
 		//Laser Cage Part
-		LaserTimeCounter += delta;
-		if(LaserTimeCounter >= LaserCageSpawnTime){
-            laserCageHorizontal.add(new LaserHorizontal(this,-475, 600));
-            laserCageHorizontal.add(new LaserHorizontal(this,-475, 480));
-            laserCageHorizontal.add(new LaserHorizontal(this,-475, 360));
-            laserCageHorizontal.add(new LaserHorizontal(this,-475, 240));
-            laserCageHorizontal.add(new LaserHorizontal(this,-475, 120));
-            laserCageHorizontal.add(new LaserHorizontal(this,-475, 0));
+        if(LaserCageScore >= LaserCageScoreAppear) {
+            LaserTimeCounter += delta;
+            if (LaserTimeCounter >= LaserCageSpawnTime) {
+                laserCageHorizontal.add(new LaserHorizontal(this, -475, 600));
+                laserCageHorizontal.add(new LaserHorizontal(this, -475, 480));
+                laserCageHorizontal.add(new LaserHorizontal(this, -475, 360));
+                laserCageHorizontal.add(new LaserHorizontal(this, -475, 240));
+                laserCageHorizontal.add(new LaserHorizontal(this, -475, 120));
+                laserCageHorizontal.add(new LaserHorizontal(this, -475, 0));
 
-            laserCageVertical.add(new LaserVertical(this,840, 1125));
-            laserCageVertical.add(new LaserVertical(this,720, 1125));
-            laserCageVertical.add(new LaserVertical(this,600, 1125));
-            laserCageVertical.add(new LaserVertical(this,480, 1125));
-            laserCageVertical.add(new LaserVertical(this,360, 1125));
-            laserCageVertical.add(new LaserVertical(this,240, 1125));
-            laserCageVertical.add(new LaserVertical(this,120, 1125));
-            laserCageVertical.add(new LaserVertical(this,0, 1125));
+                laserCageVertical.add(new LaserVertical(this, 840, 1125));
+                laserCageVertical.add(new LaserVertical(this, 720, 1125));
+                laserCageVertical.add(new LaserVertical(this, 600, 1125));
+                laserCageVertical.add(new LaserVertical(this, 480, 1125));
+                laserCageVertical.add(new LaserVertical(this, 360, 1125));
+                laserCageVertical.add(new LaserVertical(this, 240, 1125));
+                laserCageVertical.add(new LaserVertical(this, 120, 1125));
+                laserCageVertical.add(new LaserVertical(this, 0, 1125));
 
-			LaserTimeCounter -= LaserCageSpawnTime;
+                LaserTimeCounter -= LaserCageSpawnTime;
 
-		}
+                LaserCageCount += 1;
+            }
+            if(LaserCageCount == 5){
+                LaserCageCount = 0;
+                LaserCageScore = 0;
+            }
+        }
 		for(int i = 0; i< laserCageHorizontal.size() ; i++) {
             laserCageHorizontal.get(i).Move();
             laserCageHorizontal.get(i).update(delta);
