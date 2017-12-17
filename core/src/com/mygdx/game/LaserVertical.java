@@ -43,10 +43,13 @@ public class LaserVertical {
         Center_Y -= LaserSpeed;
 
         // Check the Radius of MainGirl and Laser
-        if(mainGirl.getCenter_X() > Center_X - Radius_X && mainGirl.getCenter_X() < Center_X + Radius_X){
 
-            if(mainGirl.getCenter_Y() > Center_Y - Radius_Y && mainGirl.getCenter_Y() < Center_Y + Radius_Y){
-                System.out.println("==========================");
+        if(!world.Dead) {
+            if (mainGirl.getCenter_X() > Center_X - Radius_X && mainGirl.getCenter_X() < Center_X + Radius_X) {
+
+                if (mainGirl.getCenter_Y() > Center_Y - Radius_Y && mainGirl.getCenter_Y() < Center_Y + Radius_Y) {
+                    world.Dead = true;
+                }
             }
         }
     }

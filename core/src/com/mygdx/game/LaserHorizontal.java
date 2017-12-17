@@ -41,11 +41,14 @@ public class LaserHorizontal {
 
 	public void update(float delta){
 	    Center_X += LaserSpeed;
-		if(mainGirl.getCenter_X() > Center_X - Radius_X && mainGirl.getCenter_X() < Center_X + Radius_X){
 
-			if(mainGirl.getCenter_Y() > Center_Y - Radius_Y && mainGirl.getCenter_Y() < Center_Y + Radius_Y){
-				System.out.println("==========================");
-			}
-		}
+	    if(!world.Dead) {
+            if (mainGirl.getCenter_X() > Center_X - Radius_X && mainGirl.getCenter_X() < Center_X + Radius_X) {
+
+                if (mainGirl.getCenter_Y() > Center_Y - Radius_Y && mainGirl.getCenter_Y() < Center_Y + Radius_Y) {
+                    world.Dead = true;
+                }
+            }
+        }
 	}
 }

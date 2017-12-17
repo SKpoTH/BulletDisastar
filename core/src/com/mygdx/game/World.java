@@ -14,6 +14,11 @@ public class World {
 	private LaserHorizontal laserHorizontal;
 	private LaserVertical laserVertical;
 
+	//Status of Player
+    public boolean Dead = false;
+    private double ReviveTime = 3;
+    private float ReviveTimeCounter = 0;
+
 	//Laser Cage Spawn Time Setting
 	private static final double LaserCageSpawnTime = 2;
 	private float LaserTimeCounter = 0;
@@ -31,11 +36,15 @@ public class World {
 	private ArrayList<LaserHorizontal> laserCageHorizontal = new ArrayList<LaserHorizontal>();
     private ArrayList<LaserVertical> laserCageVertical = new ArrayList<LaserVertical>();
 
+    private int Score = 0;
+    private static final double ScoreRate = 0.5;
+    private float ScoreTimeCounter = 0;
+
 	
 	World(DisastarGame disastarGame) {
 
 		this.disastarGame = disastarGame;
-		mainGirl = new MainGirl(GameScreen.SCREEN_WIDTH/2,GameScreen.SCREEN_HEIGHT/2);
+		mainGirl = new MainGirl(this ,(GameScreen.SCREEN_WIDTH-200)/2,GameScreen.SCREEN_HEIGHT/2);
 
 		random = new Random();
 	}
@@ -58,6 +67,22 @@ public class World {
 
 	public void update(float delta)
 	{
+	    //Live Status
+        if(Dead){
+            mainGirl.ReviveGirl();
+            ReviveTimeCounter += delta;
+            if(ReviveTimeCounter >= ReviveTime){
+                Dead = false;
+                ReviveTimeCounter -= ReviveTime;
+            }
+        }
+
+	    //Scoring System
+        ScoreTimeCounter += delta;
+        if(ScoreTimeCounter >= ScoreRate){
+            Score += 1;
+        }
+
 		//Medium Bullet normally spawn
 		MediumBulletTimeCounter += delta;
 		if(MediumBulletTimeCounter >= MediumBulletSpawnTime){

@@ -31,18 +31,20 @@ public class MediumBullet {
 
     public MediumBullet(World world, int type){
         this.world = world;
+
+        mainGirl = world.getMainGirl();
+
         Type = type;
         random = new Random();
 
         if(Type == 0) {
             position = new Vector2(0, random.nextInt(GameScreen.SCREEN_HEIGHT));    //Spawn on the left
         } else if(Type == 1) {
-            position = new Vector2(GameScreen.SCREEN_WIDTH, random.nextInt(GameScreen.SCREEN_HEIGHT));     //Spawn on the right
-            System.out.println("11111111111111");
+            position = new Vector2(GameScreen.SCREEN_WIDTH-200, random.nextInt(GameScreen.SCREEN_HEIGHT));     //Spawn on the right
         } else if(Type == 2) {
-            position = new Vector2(random.nextInt(GameScreen.SCREEN_WIDTH), GameScreen.SCREEN_HEIGHT);      //Spawn on the top
+            position = new Vector2(random.nextInt(GameScreen.SCREEN_WIDTH-200), GameScreen.SCREEN_HEIGHT);      //Spawn on the top
         } else if(Type == 3) {
-            position = new Vector2(random.nextInt(GameScreen.SCREEN_WIDTH), GameScreen.SCREEN_HEIGHT);      //Spawn on the bottom
+            position = new Vector2(random.nextInt(GameScreen.SCREEN_WIDTH-200), GameScreen.SCREEN_HEIGHT);      //Spawn on the bottom
         }
         RandomMove = random.nextInt(BulletSpeed) - random.nextInt(BulletSpeed);
 
@@ -79,6 +81,15 @@ public class MediumBullet {
 
             Center_X += RandomMove;
             Center_Y += BulletSpeed;
+        }
+
+        if(!world.Dead) {
+            if (mainGirl.getCenter_X() > Center_X - Radius_X && mainGirl.getCenter_X() < Center_X + Radius_X) {
+
+                if (mainGirl.getCenter_Y() > Center_Y - Radius_Y && mainGirl.getCenter_Y() < Center_Y + Radius_Y) {
+                    world.Dead = true;
+                }
+            }
         }
     }
 }

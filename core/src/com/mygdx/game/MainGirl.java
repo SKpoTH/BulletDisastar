@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 
 public class MainGirl {
 
-	private float ImageSize_X = 50;
-	private float ImageSize_Y = 50;
+	private float ImageSize_X = 20;
+	private float ImageSize_Y = 20;
 
 	private float Radius_X = ImageSize_X/2;
 	private float Radius_Y = ImageSize_Y/2;
@@ -22,9 +22,13 @@ public class MainGirl {
     public static final int DIRECTION_DOWN = 3;
     public static final int DIRECTION_LEFT = 4;
     public static final int DIRECTION_STILL = 0;
+
+    private World world;
 	
-	public MainGirl(int x, int y) {
+	public MainGirl(World world, int x, int y) {
 		position = new Vector2(x,y);
+
+		this.world = world;
 
     }    
  
@@ -64,7 +68,9 @@ public class MainGirl {
     		Speed = 3;
     	else 
     		Speed = 7;
-    		
     }
-    
+    public void ReviveGirl(){
+	    position.x = ((GameScreen.SCREEN_WIDTH)-200)/2;
+	    position.y = (GameScreen.SCREEN_HEIGHT)/2;
+	}
 }

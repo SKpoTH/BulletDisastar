@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class GameScreen extends ScreenAdapter{
-	public static final int SCREEN_WIDTH = 900;
+	public static final int SCREEN_WIDTH = 1100;
 	public static final int SCREEN_HEIGHT = 650;
 	
 	World world;

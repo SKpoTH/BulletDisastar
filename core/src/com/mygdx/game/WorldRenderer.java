@@ -10,6 +10,7 @@ public class WorldRenderer {
 	private DisastarGame disastarGame;
 
 	private Texture backGroundImg;
+	private Texture infoTabImg;
 	
 	private Texture heroImg;
 	private Texture mediumBulletImg;
@@ -26,12 +27,13 @@ public class WorldRenderer {
 
 		this.world = world;
 
-		backGroundImg = new Texture("background_sky.jpg");
+        backGroundImg = new Texture("background_sky.jpg");
+        infoTabImg = new Texture("info_tab.png");
 
-		heroImg = new Texture("pacman.png");
+		heroImg = new Texture("hit_point.png");
 		mediumBulletImg = new Texture("medium_bullet.png");
-		laserHorizontalImg = new Texture("laser_yellow_horizontal.png");
-		laserVerticalImg = new Texture("laser_yellow_vertical.png");
+		laserHorizontalImg = new Texture("laser_purple_horizontal.png");
+		laserVerticalImg = new Texture("laser_purple_vertical.png");
 	}
 	
 	public void render(float delta) {
@@ -40,6 +42,12 @@ public class WorldRenderer {
 
 	    //Background
 	    batch.draw(backGroundImg, 0 , 0);
+
+        //Main Girl Player
+        if(!world.Dead) {
+            Vector2 pos = world.getMainGirl().getPosition();
+            batch.draw(heroImg, pos.x, pos.y);
+        }
 
 	    //Medium Bullet
         for (int i = 0 ; i<world.getMediumBullets().size() ; i++){
@@ -57,9 +65,8 @@ public class WorldRenderer {
             batch.draw(laserVerticalImg, PosV.x, PosV.y);
         }
 
-        //Main Girl Player
-	    Vector2 pos = world.getMainGirl().getPosition();
-	    batch.draw(heroImg, pos.x , pos.y);
+        //Information Tab
+        batch.draw(infoTabImg, 900, 0);
 
 	    batch.end();
 	}
