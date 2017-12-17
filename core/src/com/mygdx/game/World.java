@@ -47,11 +47,20 @@ public class World {
 	private double MediumBulletSpawnTime = 1;
 	private float MediumBulletTimeCounter = 0;
 
-	private int MediumBulletScoreLevelSpeed = 200;
+	private int MediumBulletScoreLevelSpeed = 300;
     private float MediumBulletScoreSpeed = 0;
 
-    private int MediumBulletScoreLevelSpawn = 100;
+    private int MediumBulletScoreLevelSpawn = 80;
     private float MediumBulletScoreSpawn = 0;
+
+    //Meteor Spawn Time Setting
+    private double MeteorSpawnTime = 1;
+    private float MeteorTimeCounter = 0;
+
+    private int MeteorScoreApear = 50;
+    private float MeteorScore = 0;
+
+    private int MeteorCount = 0;
 
 
 	private DisastarGame disastarGame;
@@ -62,6 +71,9 @@ public class World {
 	//Laser List
 	private ArrayList<LaserHorizontal> laserCageHorizontal = new ArrayList<LaserHorizontal>();
     private ArrayList<LaserVertical> laserCageVertical = new ArrayList<LaserVertical>();
+
+    //Meteor List
+    private  ArrayList<MeteorBullet> meteorBullets = new ArrayList<MeteorBullet>();
 
     public int Score = 0;
     private static final double ScoreRate = 0.3;
@@ -94,6 +106,10 @@ public class World {
 
     ArrayList<LaserVertical> getLaserVertical() {
         return laserCageVertical;
+    }
+
+    ArrayList<MeteorBullet> getMeteor(){
+	    return meteorBullets;
     }
 
 	public void update(float delta)
@@ -153,13 +169,15 @@ public class World {
                 MediumBulletScoreSpeed += 1;
                 MediumBulletScoreSpawn += 1;
 
+                MeteorScore += 1;
+
                 ScoreTimeCounter -= ScoreRate;
             }
 
             //Medium Bullet normally spawn
             MediumBulletTimeCounter += delta;
             if (MediumBulletTimeCounter >= MediumBulletSpawnTime) {
-                mediumBullets.add(new MediumBullet(this, random.nextInt(3)));
+                mediumBullets.add(new MediumBullet(this, random.nextInt(4)));
                 MediumBulletTimeCounter -= MediumBulletSpawnTime;
             }
             for (int i = 0; i < mediumBullets.size(); i++) {
@@ -170,7 +188,7 @@ public class World {
                 MediumBulletScoreSpeed -= MediumBulletScoreLevelSpeed;
             }
             if(MediumBulletScoreSpawn >= MediumBulletScoreLevelSpawn){
-                MediumBulletSpawnTime = MediumBulletSpawnTime*0.8;
+                MediumBulletSpawnTime = MediumBulletSpawnTime*0.75;
                 MediumBulletScoreSpawn -= MediumBulletScoreLevelSpawn;
             }
 
@@ -216,6 +234,27 @@ public class World {
                 laserCageVertical.get(i).Move();
                 laserCageVertical.get(i).update(delta);
             }
+
+            //Meteor Part
+            if(MeteorScore >= MeteorScoreApear) {
+                MeteorTimeCounter += delta;
+                if (MeteorTimeCounter >= MeteorSpawnTime) {
+                    meteorBullets.add(new MeteorBullet(this, random.nextInt(2)));
+                    MeteorTimeCounter -= MeteorSpawnTime;
+
+                    MeteorCount += 1;
+                }
+                if (MeteorCount == 8) {
+                    MeteorCount = 0;
+                    MeteorScore = 0;
+                    MeteorBullet.MeteorSpeed += 1;
+
+                    MeteorSpawnTime *= 0.75;
+                }
+            }
+            for (int i = 0; i < meteorBullets.size(); i++) {
+                meteorBullets.get(i).update(delta);
+            }
         }
         if(GameScreen.GameStatus == 3){
             Dead = false;
@@ -227,7 +266,7 @@ public class World {
             //Power(Life)
             LifeTimeCounter = 0;
             GetLife = false;
-            LifeValue = 1;
+            LifeValue = 3;
 
             //Yin-Yang List
             for (int i = 0; i < yinYangs.size(); i++) {
@@ -249,6 +288,12 @@ public class World {
             MediumBullet.BulletSpeed = 4;
             MediumBulletSpawnTime = 1;
 
+            //Meteor Setting
+            MeteorSpawnTime = 1;
+            MeteorTimeCounter = 0;
+            MeteorScore = 0;
+            MeteorCount = 0;
+
             //Medium Bullet List
             for (int i = 0; i < mediumBullets.size(); i++) {
                 mediumBullets.remove(mediumBullets.get(i));
@@ -261,6 +306,12 @@ public class World {
             for (int i = 0; i < laserCageVertical.size(); i++) {
                 laserCageVertical.remove(laserCageVertical.get(i));
             }
+
+            //Meteor List
+            for (int i = 0; i < meteorBullets.size(); i++) {
+                meteorBullets.remove(meteorBullets.get(i));
+            }
+
             ScoreTimeCounter = 0;
         }
 	}

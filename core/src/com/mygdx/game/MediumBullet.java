@@ -9,8 +9,8 @@ public class MediumBullet {
 
     private Random random;
 
-    private float ImageSize_X = 40;
-    private float ImageSize_Y = 40;
+    private float ImageSize_X = 30;
+    private float ImageSize_Y = 30;
 
     private float Radius_X = ImageSize_X/2;
     private float Radius_Y = ImageSize_Y/2;
@@ -44,7 +44,7 @@ public class MediumBullet {
         } else if(Type == 2) {
             position = new Vector2(random.nextInt(GameScreen.SCREEN_WIDTH-200), GameScreen.SCREEN_HEIGHT+40);      //Spawn on the top
         } else if(Type == 3) {
-            position = new Vector2(random.nextInt(GameScreen.SCREEN_WIDTH-200), GameScreen.SCREEN_HEIGHT-40);      //Spawn on the bottom
+            position = new Vector2(random.nextInt(GameScreen.SCREEN_WIDTH-200), -40);      //Spawn on the bottom
         }
         RandomMove = random.nextInt(BulletSpeed) - random.nextInt(BulletSpeed);
 

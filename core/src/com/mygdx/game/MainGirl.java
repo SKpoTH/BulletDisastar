@@ -29,7 +29,6 @@ public class MainGirl {
 		position = new Vector2(x,y);
 
 		this.world = world;
-
     }    
  
     public Vector2 getPosition() {
@@ -37,10 +36,10 @@ public class MainGirl {
     }
 
     public float getCenter_X(){
-	    return Center_X + position.x + Radius_X;
+	    return position.x + Radius_X;
     }
     public float getCenter_Y(){
-	    return Center_Y + position.y + Radius_Y;
+	    return position.y + Radius_Y;
     }
 
     public void move(int dir) { 

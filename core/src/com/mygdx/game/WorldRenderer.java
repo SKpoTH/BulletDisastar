@@ -18,12 +18,25 @@ public class WorldRenderer {
 	private Texture infoTabImg;
 	
 	private Texture heroImg;
-	private Texture yinyangImg;
 
+	private Texture girl1;
+    private Texture girl2;
+    private Texture girl3;
+    private Texture girl4;
+    private Texture girl5;
+    private Texture girl6;
+    private Texture girl7;
+    private Texture girl8;
+    private double AnimateChange = 0.0125;
+    private float AnimateCount = 0;
+    private int AnimateFlame = 0;
+
+	private Texture yinyangImg;
 
 	private Texture mediumBulletImg;
 	private Texture laserHorizontalImg;
 	private Texture laserVerticalImg;
+	private Texture meteorImg;
 
 	private World world;
 
@@ -43,13 +56,62 @@ public class WorldRenderer {
         infoTabImg = new Texture("info_tab.png");
 
 		heroImg = new Texture("hit_point.png");
+
+		girl1 = new Texture("girl_1.png");
+        girl2 = new Texture("girl_2.png");
+        girl3 = new Texture("girl_3.png");
+        girl4 = new Texture("girl_4.png");
+        girl5 = new Texture("girl_5.png");
+        girl6 = new Texture("girl_6.png");
+        girl7 = new Texture("girl_7.png");
+        girl8 = new Texture("girl_8.png");
+
 		yinyangImg = new Texture("ying_yang.png");
 
 		mediumBulletImg = new Texture("medium_bullet.png");
 		laserHorizontalImg = new Texture("laser_purple_horizontal.png");
 		laserVerticalImg = new Texture("laser_purple_vertical.png");
+
+		meteorImg = new Texture("meteor.png");
 	}
-	
+
+	public void GirlAnimation(float delta, Vector2 pos){
+	    AnimateCount += delta;
+	    if(AnimateCount >= AnimateChange && AnimateFlame == 0){
+            batch.draw(girl1, pos.x-7, pos.y-20);
+            AnimateFlame = 1;
+        }
+        else if(AnimateCount >= AnimateChange*2 && AnimateFlame == 1){
+            batch.draw(girl2, pos.x-7, pos.y-20);
+            AnimateFlame = 2;
+        }
+        else if(AnimateCount >= AnimateChange*3 && AnimateFlame == 2){
+            batch.draw(girl3, pos.x-7, pos.y-20);
+            AnimateFlame = 3;
+        }
+        else if(AnimateCount >= AnimateChange*4 && AnimateFlame == 3){
+            batch.draw(girl4, pos.x-7, pos.y-20);
+            AnimateFlame = 4;
+        }
+        else if(AnimateCount >= AnimateChange*5 && AnimateFlame == 4){
+            batch.draw(girl5, pos.x-7, pos.y-20);
+            AnimateFlame = 5;
+        }
+        else if(AnimateCount >= AnimateChange*6 && AnimateFlame == 5){
+            batch.draw(girl6, pos.x-7, pos.y-20);
+            AnimateFlame = 6;
+        }
+        else if(AnimateCount >= AnimateChange*7 && AnimateFlame == 6){
+            batch.draw(girl7, pos.x-7, pos.y-20);
+            AnimateFlame = 7;
+        }
+        else if(AnimateCount >= AnimateChange*8 && AnimateFlame == 7){
+            batch.draw(girl8, pos.x-7, pos.y-20);
+            AnimateFlame = 0;
+            AnimateCount -= AnimateChange*8;
+        }
+    }
+
 	public void render(float delta) {
 		SpriteBatch batch = disastarGame.batch;
 	    batch.begin();
@@ -71,18 +133,14 @@ public class WorldRenderer {
             if (!world.Dead) {
                 Vector2 pos = world.getMainGirl().getPosition();
                 batch.draw(heroImg, pos.x, pos.y);
+
+                GirlAnimation(delta, pos);
             }
 
             //Yin-Yang (Life)
             for (int i = 0; i < world.getYinYangs().size(); i++) {
                 Vector2 PosLife = world.getYinYangs().get(i).getPosition();
                 batch.draw(yinyangImg, PosLife.x, PosLife.y);
-            }
-
-            //Medium Bullet
-            for (int i = 0; i < world.getMediumBullets().size(); i++) {
-                Vector2 PosMediumBullet = world.getMediumBullets().get(i).getPosition();
-                batch.draw(mediumBulletImg, PosMediumBullet.x, PosMediumBullet.y);
             }
 
             //Laser
@@ -93,6 +151,18 @@ public class WorldRenderer {
             for (int i = 0; i < world.getLaserVertical().size(); i++) {
                 Vector2 PosV = world.getLaserVertical().get(i).getPosition();
                 batch.draw(laserVerticalImg, PosV.x, PosV.y);
+            }
+
+            //Medium Bullet
+            for (int i = 0; i < world.getMediumBullets().size(); i++) {
+                Vector2 PosMediumBullet = world.getMediumBullets().get(i).getPosition();
+                batch.draw(mediumBulletImg, PosMediumBullet.x, PosMediumBullet.y);
+            }
+
+            //Meteor Bullet
+            for (int i = 0; i < world.getMeteor().size(); i++) {
+                Vector2 PosMeteor = world.getMeteor().get(i).getPosition();
+                batch.draw(meteorImg, PosMeteor.x, PosMeteor.y);
             }
 
             //Information Tab
