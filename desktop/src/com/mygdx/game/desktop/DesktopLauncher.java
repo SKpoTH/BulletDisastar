@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = GameScreen.SCREEN_WIDTH;
         config.height = GameScreen.SCREEN_HEIGHT;
+        config.backgroundFPS = 60;
         new LwjglApplication(new DisastarGame(), config);
 	}
 }

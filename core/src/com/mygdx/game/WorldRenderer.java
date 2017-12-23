@@ -27,7 +27,7 @@ public class WorldRenderer {
     private Texture girl6;
     private Texture girl7;
     private Texture girl8;
-    private double AnimateChange = 0.0125;
+    private double AnimateChange = 0.01251;
     private float AnimateCount = 0;
     private int AnimateFlame = 0;
 
@@ -73,6 +73,8 @@ public class WorldRenderer {
 		laserVerticalImg = new Texture("laser_purple_vertical.png");
 
 		meteorImg = new Texture("meteor.png");
+
+		font.getData().setScale(2.5f, 2.5f);
 	}
 
 	public void GirlAnimation(float delta, Vector2 pos){
@@ -170,7 +172,7 @@ public class WorldRenderer {
             batch.draw(infoTabImg, 900, 0);
 
             //Show Score
-            font.draw(batch, "" + world.Score, 1000, 580);
+            font.draw(batch, "" + world.Score, 980, 580);
 
             //Show Life now
             if (world.LifeValue >= 1) {
@@ -192,8 +194,8 @@ public class WorldRenderer {
 
         if(GameScreen.GameStatus == 3){
             batch.draw(endingImg, 0, 0);
-            font.draw(batch, "" + world.Score, 360, 300);
-            font.draw(batch, "" + world.Score, 720, 300);
+            font.draw(batch, "" + world.Score, 340, 300);
+            font.draw(batch, "" + world.Score, 700, 300);
         }
 
 	    batch.end();
